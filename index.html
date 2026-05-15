@@ -7,76 +7,121 @@
     <style>
         /* 基础重置与字体设定 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body, html { width: 100%; height: 100%; overflow: hidden; font-family: 'Times New Roman', 'PingFang SC', 'Microsoft YaHei', serif; }
+        body, html { width: 100%; height: 100%; overflow: hidden; font-family: 'Georgia', 'PingFang SC', 'Microsoft YaHei', serif; }
         
-        /* 背景：深邃的环境色与竖向格栅纹理 */
+        /* 背景：深烘焙咖啡色（Espresso）与空间格栅 */
         body {
-            background-color: #161716; /* 深邃的黛绿色调 */
-            background-image: repeating-linear-gradient(
-                90deg,
-                transparent,
-                transparent 50px,
-                rgba(212, 184, 134, 0.03) 50px,
-                rgba(212, 184, 134, 0.03) 52px
-            );
+            background-color: #1a1614; 
+            background-image: 
+                linear-gradient(rgba(26, 22, 20, 0.6), rgba(26, 22, 20, 0.6)), 
+                repeating-linear-gradient(
+                    90deg,
+                    #1d1917,
+                    #1d1917 40px,
+                    #241f1c 40px,
+                    #241f1c 42px
+                );
             display: flex;
             justify-content: center;
             align-items: center;
-            color: #e6dfd3; /* 温暖的墙粉色/原木色调 */
+            color: #d4b890; 
         }
 
-        /* 动态光影画布层 */
+        /* 动态蒸汽画布层 */
         #canvas-bg {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1; pointer-events: none;
         }
 
-        /* 主体内容容器：毛玻璃卡片效果 */
+        /* 主体内容容器：带有一点暖调的毛玻璃卡片 */
         .glass-card {
             position: relative;
             z-index: 10;
-            padding: 3rem 4rem;
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(12px); /* 毛玻璃模糊效果 */
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 4px; /* 偏向现代建筑的硬朗小圆角 */
+            padding: 4.5rem 5rem;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px) saturate(110%);
+            -webkit-backdrop-filter: blur(20px) saturate(110%);
+            border: 1px solid rgba(212, 184, 144, 0.2); 
+            border-radius: 8px;
             text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-            animation: floatUp 2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6), inset 0 0 15px rgba(212,184,144,0.03); 
+            animation: floatUp 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(40px);
+        }
+
+        /* 顶部英文标识排版 */
+        .project-title {
+            display: block;
+            font-family: 'Helvetica Neue', 'Arial', sans-serif; 
+            font-size: 0.85rem;
+            letter-spacing: 0.35rem;
+            color: #a69580; 
+            text-transform: uppercase;
+            margin-bottom: 1.2rem;
         }
 
         /* 文字排版 */
         h1 {
-            font-size: 2.8rem;
+            font-size: 3.5rem;
             font-weight: 300;
-            letter-spacing: 0.5rem;
-            margin-bottom: 1rem;
-            text-shadow: 0 0 20px rgba(212, 184, 134, 0.3);
+            letter-spacing: 0.6rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 25px rgba(212, 184, 144, 0.4); 
+            color: #e8dbcc;
         }
         
         .subtitle {
-            font-size: 1.1rem;
-            letter-spacing: 0.2rem;
-            color: #a39e93;
+            font-size: 1.25rem;
+            letter-spacing: 0.25rem;
+            color: #b5a38f;
             margin-bottom: 2rem;
             font-weight: 300;
         }
 
-        .line {
-            width: 1px;
-            height: 40px;
-            background: linear-gradient(to bottom, rgba(212, 184, 134, 0.5), transparent);
+        /* 包含咖啡图标的装饰线组合 */
+        .coffee-ornament {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             margin: 0 auto 2rem;
+            opacity: 0.8;
+        }
+
+        .line-segment {
+            width: 1px;
+            height: 30px;
+            background: linear-gradient(to bottom, rgba(212, 184, 144, 0), rgba(212, 184, 144, 0.6), rgba(212, 184, 144, 0));
+        }
+
+        .coffee-icon {
+            margin: 10px 0;
+            width: 24px;
+            height: 24px;
+            stroke: rgba(212, 184, 144, 0.8);
+            fill: none;
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
 
         .detail {
-            font-size: 0.9rem;
-            letter-spacing: 0.15rem;
-            color: #7a766e;
+            font-size: 1.0rem;
+            letter-spacing: 0.2rem;
+            color: #8c7e6f;
+            font-weight: 300;
+        }
+
+        /* 底部中文落款排版 */
+        .signature {
+            display: block;
+            margin-top: 2.5rem;
+            font-size: 0.8rem;
+            letter-spacing: 0.3rem;
+            color: #6e6153; /* 更加克制、内敛的颜色 */
+            font-weight: 300;
+            opacity: 0.8;
         }
 
         /* 浮现动画 */
@@ -86,75 +131,105 @@
 
         /* 移动端适配 */
         @media (max-width: 600px) {
-            .glass-card { padding: 2.5rem 2rem; margin: 0 20px; }
-            h1 { font-size: 2.2rem; letter-spacing: 0.3rem; }
+            .glass-card { padding: 3.5rem 2.5rem; margin: 0 15px; }
+            h1 { font-size: 2.5rem; letter-spacing: 0.4rem; }
+            .project-title { font-size: 0.75rem; letter-spacing: 0.25rem; }
+            .signature { margin-top: 2rem; font-size: 0.75rem; letter-spacing: 0.2rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 粒子动画的画布 -->
+    <!-- 咖啡蒸汽粒子画布 -->
     <canvas id="canvas-bg"></canvas>
 
     <!-- 主体文字卡片 -->
     <div class="glass-card">
+        <!-- 顶部英文标识 -->
+        <span class="project-title">GROVE THRIVE Cafe</span>
+        
         <h1>毕业快乐</h1>
         <p class="subtitle">构筑心之所向，万物自然生长</p>
-        <div class="line"></div>
+        
+        <!-- 极简几何咖啡装饰 -->
+        <div class="coffee-ornament">
+            <div class="line-segment"></div>
+            <svg class="coffee-icon" viewBox="0 0 24 24">
+                <path d="M17 8h1a4 4 0 1 1 0 8h-1"></path>
+                <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8z"></path>
+                <path d="M6 2v3"></path>
+                <path d="M10 2v3"></path>
+                <path d="M14 2v3"></path>
+            </svg>
+            <div class="line-segment"></div>
+        </div>
+
         <p class="detail">去构建属于你的诗意空间</p>
+        
+        <!-- 新增底部中文落款 -->
+        <span class="signature">— 林间生息 咖啡厅 —</span>
     </div>
 
     <script>
-        // 用 JavaScript 绘制漂浮的光斑/微粒
+        // JS 物理效果：模拟热咖啡升腾的雾气与水汽
         const canvas = document.getElementById('canvas-bg');
         const ctx = canvas.getContext('2d');
-        let width, height, particles;
+        let width, height, steams;
 
         function init() {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
-            particles = [];
-            // 根据屏幕大小决定粒子数量
-            const particleCount = Math.floor(width * height / 15000); 
+            steams = [];
             
-            for (let i = 0; i < particleCount; i++) {
-                particles.push({
-                    x: Math.random() * width,
-                    y: Math.random() * height,
-                    radius: Math.random() * 2 + 0.5,
-                    vx: Math.random() * 0.5 - 0.25,
-                    vy: Math.random() * -0.5 - 0.1, // 主要是向上漂浮
-                    alpha: Math.random() * 0.5 + 0.1
-                });
+            const steamCount = Math.floor(width * height / 10000); 
+            
+            for (let i = 0; i < steamCount; i++) {
+                createSteam(true);
             }
+        }
+
+        function createSteam(randomY = false) {
+            steams.push({
+                x: Math.random() * width,
+                y: randomY ? Math.random() * height : height + 20, 
+                radius: Math.random() * 8 + 4, 
+                vx: 0,
+                vy: Math.random() * -0.8 - 0.2, 
+                alpha: Math.random() * 0.15 + 0.05, 
+                angle: Math.random() * Math.PI * 2, 
+                angleSpin: Math.random() * 0.02 - 0.01 
+            });
         }
 
         function animate() {
             ctx.clearRect(0, 0, width, height);
             
-            particles.forEach(p => {
-                p.x += p.vx;
+            steams.forEach((p, index) => {
+                p.angle += p.angleSpin;
+                p.x += Math.sin(p.angle) * 0.4;
                 p.y += p.vy;
-
-                // 如果微粒飘出屏幕，让它从底部重新出现
-                if (p.y < -10) p.y = height + 10;
-                if (p.x < -10) p.x = width + 10;
-                if (p.x > width + 10) p.x = -10;
+                
+                p.radius += 0.015;
+                p.alpha -= 0.0003;
 
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                // 淡淡的原木色/暖金色微粒
-                ctx.fillStyle = `rgba(212, 184, 134, ${p.alpha})`; 
+                ctx.fillStyle = `rgba(212, 184, 144, ${p.alpha})`; 
+                ctx.shadowBlur = 15; 
+                ctx.shadowColor = `rgba(212, 184, 144, ${p.alpha})`;
                 ctx.fill();
+
+                if (p.y < -20 || p.alpha <= 0) {
+                    steams.splice(index, 1);
+                    createSteam(false);
+                }
             });
 
             requestAnimationFrame(animate);
         }
 
-        // 监听窗口大小变化
         window.addEventListener('resize', init);
         
-        // 启动动画
         init();
         animate();
     </script>
