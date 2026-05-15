@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You | 毕业快乐</title>
+    <style>
+        /* 基础重置与字体设定 */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body, html { width: 100%; height: 100%; overflow: hidden; font-family: 'Times New Roman', 'PingFang SC', 'Microsoft YaHei', serif; }
+        
+        /* 背景：深邃的环境色与竖向格栅纹理 */
+        body {
+            background-color: #161716; /* 深邃的黛绿色调 */
+            background-image: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 50px,
+                rgba(212, 184, 134, 0.03) 50px,
+                rgba(212, 184, 134, 0.03) 52px
+            );
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #e6dfd3; /* 温暖的墙粉色/原木色调 */
+        }
+
+        /* 动态光影画布层 */
+        #canvas-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1; pointer-events: none;
+        }
+
+        /* 主体内容容器：毛玻璃卡片效果 */
+        .glass-card {
+            position: relative;
+            z-index: 10;
+            padding: 3rem 4rem;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px); /* 毛玻璃模糊效果 */
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 4px; /* 偏向现代建筑的硬朗小圆角 */
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            animation: floatUp 2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        /* 文字排版 */
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 300;
+            letter-spacing: 0.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px rgba(212, 184, 134, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            letter-spacing: 0.2rem;
+            color: #a39e93;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, rgba(212, 184, 134, 0.5), transparent);
+            margin: 0 auto 2rem;
+        }
+
+        .detail {
+            font-size: 0.9rem;
+            letter-spacing: 0.15rem;
+            color: #7a766e;
+        }
+
+        /* 浮现动画 */
+        @keyframes floatUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 600px) {
+            .glass-card { padding: 2.5rem 2rem; margin: 0 20px; }
+            h1 { font-size: 2.2rem; letter-spacing: 0.3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 粒子动画的画布 -->
+    <canvas id="canvas-bg"></canvas>
+
+    <!-- 主体文字卡片 -->
+    <div class="glass-card">
+        <h1>毕业快乐</h1>
+        <p class="subtitle">构筑心之所向，万物自然生长</p>
+        <div class="line"></div>
+        <p class="detail">去构建属于你的诗意空间</p>
+    </div>
+
+    <script>
+        // 用 JavaScript 绘制漂浮的光斑/微粒
+        const canvas = document.getElementById('canvas-bg');
+        const ctx = canvas.getContext('2d');
+        let width, height, particles;
+
+        function init() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            particles = [];
+            // 根据屏幕大小决定粒子数量
+            const particleCount = Math.floor(width * height / 15000); 
+            
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    radius: Math.random() * 2 + 0.5,
+                    vx: Math.random() * 0.5 - 0.25,
+                    vy: Math.random() * -0.5 - 0.1, // 主要是向上漂浮
+                    alpha: Math.random() * 0.5 + 0.1
+                });
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+
+                // 如果微粒飘出屏幕，让它从底部重新出现
+                if (p.y < -10) p.y = height + 10;
+                if (p.x < -10) p.x = width + 10;
+                if (p.x > width + 10) p.x = -10;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                // 淡淡的原木色/暖金色微粒
+                ctx.fillStyle = `rgba(212, 184, 134, ${p.alpha})`; 
+                ctx.fill();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        // 监听窗口大小变化
+        window.addEventListener('resize', init);
+        
+        // 启动动画
+        init();
+        animate();
+    </script>
+</body>
+</html>
